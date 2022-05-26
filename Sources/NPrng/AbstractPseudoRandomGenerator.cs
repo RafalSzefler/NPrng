@@ -11,9 +11,9 @@ namespace NPrng
         /// <inheritdoc/>
         public double GenerateDouble()
         {
-            var generated = (Int32)Generate();
-            var piece = Math.Abs((Int64)generated);
-            return (double)piece / (double)Int32.MaxValue;
+            const Int64 absMask = (Int64)(~((1UL << 63) + (1UL << 62)));
+            var generated = Generate() & absMask;
+            return (double)generated / (double)(absMask+1);
         }
 
         /// <inheritdoc/>
@@ -61,6 +61,13 @@ namespace NPrng
             while (result > uRange);
 
             return (Int64)result;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static Int64 FastAbs(Int64 value)
+        {
+            var shifted = value >> 63;
+            return (value + shifted) ^ shifted;
         }
     }
 }

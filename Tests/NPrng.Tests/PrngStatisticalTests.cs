@@ -172,6 +172,11 @@ namespace NPrng.Tests
                 for (var i = 0; i < DataSize; i++)
                 {
                     var generatedNo = generator.GenerateDouble();
+                    if (generatedNo < 0 || generatedNo >= 1)
+                    {
+                        Interlocked.Increment(ref invalid);
+                        return;
+                    }
                     total += generatedNo;
                 }
                 total /= DataSize;
@@ -179,6 +184,41 @@ namespace NPrng.Tests
                 if (Math.Abs(total - 1d) > 0.01d)
                 {
                     Interlocked.Increment(ref invalid);
+                }
+            });
+
+            Assert.Equal(0, invalid);
+        }
+
+        [Theory]
+        [ClassData(typeof(PrngStatisticalTestsData))]
+        public void TestDoublesDistribution(string name, Func<IPseudoRandomGenerator> instantiator)
+        {
+            Assert.NotNull(name);
+            var invalid = 0;
+
+            Parallel.For(0, Rounds, (counter, state) =>
+            {
+                const int localDataSize = DataSize * 3;
+                const int subdivision = 1009;
+                var counts = new int[subdivision];
+                var generator = instantiator();
+                for (var i = 0; i < localDataSize; i++)
+                {
+                    var generatedNo = generator.GenerateDouble();
+                    var no = (int)(generatedNo * subdivision);
+                    counts[no]++;
+                }
+
+                const int perSubdivision = localDataSize / subdivision;
+
+                foreach (var count in counts)
+                {
+                    if ((double)Math.Abs(count - perSubdivision) > perSubdivision * 0.1d)
+                    {
+                        Interlocked.Increment(ref invalid);
+                        break;
+                    }
                 }
             });
 

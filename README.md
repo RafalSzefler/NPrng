@@ -77,4 +77,4 @@ All generators have a simple statistical test based on prime numbers. You can ru
 
 in `Tests\NPrng.Tests` folder.
 
-Note however that `PrngStatisticalTests.cs` can take quite sometime, even though it is parallelized. It takes around ~12s for all of them on my 12 core Ryzen9 cpu. A single threaded version of that test took around ~30s.
+Note however that `PrngStatisticalTests.cs` can take quite sometime, even though it is parallelized. It takes around ~14s for all of them on my 12 core Ryzen9 cpu. A single threaded version of that test took around ~40s.
