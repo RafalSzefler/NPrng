@@ -11,7 +11,10 @@ namespace NPrng
         /// <inheritdoc/>
         public double GenerateDouble()
         {
-            const Int64 absMask = (Int64)(~((1UL << 63) + (1UL << 62)));
+            const Int64 absMask = ~(unchecked((Int64)(1UL << 63)) >> 2);
+
+            // We replace first three bits with 0 via absMask, and then divide
+            // by absMask+1 to ensure [0,1) interval.
             var generated = Generate() & absMask;
             return (double)generated / (double)(absMask+1);
         }
