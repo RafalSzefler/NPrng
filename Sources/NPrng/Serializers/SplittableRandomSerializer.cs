@@ -7,8 +7,11 @@ namespace NPrng.Serializers
     public sealed class SplittableRandomSerializer : AbstractPseudoRandomGeneratorSerializer<SplittableRandom>
     {
         private const int BufferSize = 2 * sizeof(UInt64);
-        public override int GetExpectedBufferSize(IPseudoRandomGenerator generator) => BufferSize;
 
+        /// <inheritdoc/>
+        public override int GetExpectedBufferSize(SplittableRandom generator) => BufferSize;
+
+        /// <inheritdoc/>
         public override SplittableRandom ReadFromBuffer(ArraySegment<byte> buffer, out int read)
         {
             UInt64 seed;
@@ -19,6 +22,7 @@ namespace NPrng.Serializers
             return new SplittableRandom(seed, gamma);
         }
 
+        /// <inheritdoc/>
         public override SplittableRandom ReadFromStream(Stream source)
         {
             UInt64 seed;
@@ -28,6 +32,7 @@ namespace NPrng.Serializers
             return new SplittableRandom(seed, gamma);
         }
 
+        /// <inheritdoc/>
         public override int WriteToBuffer(SplittableRandom generator, ArraySegment<byte> buffer)
         {
             buffer = SerializationHelpers.WriteToBuffer(generator.Seed, buffer);
@@ -35,6 +40,7 @@ namespace NPrng.Serializers
             return BufferSize;
         }
 
+        /// <inheritdoc/>
         public override void WriteToStream(SplittableRandom generator, Stream target)
         {
             SerializationHelpers.WriteToStream(generator.Seed, target);

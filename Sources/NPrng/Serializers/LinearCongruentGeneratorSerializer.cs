@@ -7,8 +7,11 @@ namespace NPrng.Serializers
     public sealed class LinearCongruentGeneratorSerializer : AbstractPseudoRandomGeneratorSerializer<LinearCongruentGenerator>
     {
         private const int BufferSize = sizeof(UInt64);
-        public override int GetExpectedBufferSize(IPseudoRandomGenerator generator) => sizeof(UInt64);
 
+        /// <inheritdoc/>
+        public override int GetExpectedBufferSize(LinearCongruentGenerator generator) => sizeof(UInt64);
+
+        /// <inheritdoc/>
         public override LinearCongruentGenerator ReadFromBuffer(ArraySegment<byte> buffer, out int read)
         {
             UInt64 state;
@@ -17,6 +20,7 @@ namespace NPrng.Serializers
             return new LinearCongruentGenerator(state);
         }
 
+        /// <inheritdoc/>
         public override LinearCongruentGenerator ReadFromStream(Stream source)
         {
             UInt64 state;
@@ -24,12 +28,14 @@ namespace NPrng.Serializers
             return new LinearCongruentGenerator(state);
         }
 
+        /// <inheritdoc/>
         public override int WriteToBuffer(LinearCongruentGenerator generator, ArraySegment<byte> buffer)
         {
             SerializationHelpers.WriteToBuffer(generator.CurrentState, buffer);
             return BufferSize;
         }
 
+        /// <inheritdoc/>
         public override void WriteToStream(LinearCongruentGenerator generator, Stream target)
         {
             SerializationHelpers.WriteToStream(generator.CurrentState, target);

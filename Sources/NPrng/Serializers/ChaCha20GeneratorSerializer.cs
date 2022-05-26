@@ -7,8 +7,11 @@ namespace NPrng.Serializers
     public sealed class ChaCha20GeneratorSerializer : AbstractPseudoRandomGeneratorSerializer<ChaCha20Generator>
     {
         private const int BufferSize = 16 * sizeof(UInt32);
-        public override int GetExpectedBufferSize(IPseudoRandomGenerator generator) => BufferSize;
 
+        /// <inheritdoc/>
+        public override int GetExpectedBufferSize(ChaCha20Generator generator) => BufferSize;
+
+        /// <inheritdoc/>
         public override ChaCha20Generator ReadFromBuffer(ArraySegment<byte> buffer, out int read)
         {
             var key = new UInt32[16];
@@ -22,6 +25,7 @@ namespace NPrng.Serializers
             return new ChaCha20Generator(key);
         }
 
+        /// <inheritdoc/>
         public override ChaCha20Generator ReadFromStream(Stream source)
         {
             var key = new UInt32[16];
@@ -34,6 +38,7 @@ namespace NPrng.Serializers
             return new ChaCha20Generator(key);
         }
 
+        /// <inheritdoc/>
         public override int WriteToBuffer(ChaCha20Generator generator, ArraySegment<byte> buffer)
         {
             var key = generator.Key;
@@ -45,6 +50,7 @@ namespace NPrng.Serializers
             return BufferSize;
         }
 
+        /// <inheritdoc/>
         public override void WriteToStream(ChaCha20Generator generator, Stream target)
         {
             var key = generator.Key;

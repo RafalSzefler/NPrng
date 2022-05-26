@@ -165,18 +165,20 @@ namespace NPrng.Tests
             Assert.NotNull(name);
             var invalid = 0;
 
-            Parallel.For(0, Rounds, (counter, state) => {
-                const double lower = 0;
-                const double upper = 1;
+            Parallel.For(0, Rounds, (counter, state) =>
+            {
+                var total = 0d;
                 var generator = instantiator();
                 for (var i = 0; i < DataSize; i++)
                 {
                     var generatedNo = generator.GenerateDouble();
-                    if (generatedNo < lower || generatedNo > upper)
-                    {
-                        Interlocked.Increment(ref invalid);
-                        return;
-                    }
+                    total += generatedNo;
+                }
+                total /= DataSize;
+                total *= 2;
+                if (Math.Abs(total - 1d) > 0.01d)
+                {
+                    Interlocked.Increment(ref invalid);
                 }
             });
 

@@ -135,6 +135,7 @@ namespace NPrng.Generators
             }
         }
 
+        /// <inheritdoc/>
         public override Int64 Generate()
         {
             unchecked

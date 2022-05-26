@@ -11,6 +11,7 @@ namespace NPrng.Generators
             CurrentState = currentState;
         }
 
+        /// <inheritdoc/>
         public override Int64 Generate()
         {
             unchecked

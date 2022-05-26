@@ -3,7 +3,7 @@ NPrng
 
 The project contains several implementations of popular pseudo random number generator algorithms. Additionally it contains serializers to save and restore state of every generator in the library.
 
-**Dependencies:** netstandard1.3
+**Dependencies:** netstandard 2.1
 
 Generators
 ----------
@@ -67,7 +67,7 @@ The expected size of serialized binary data is the following:
 Tests
 =====
 
-**Dependencies:** net5.0
+**Dependencies:** net 6.0
 
 All generators have a simple statistical test based on prime numbers. You can run them by simply doing
 

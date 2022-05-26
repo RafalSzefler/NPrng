@@ -43,6 +43,7 @@ namespace NPrng.Generators
             this.Gamma = mixGamma(s + GOLDEN_GAMMA);
         }
 
+        /// <inheritdoc/>
         public override Int64 Generate() => (Int64)mix64(nextSeed());
 
         public SplittableRandom Split() => new SplittableRandom(

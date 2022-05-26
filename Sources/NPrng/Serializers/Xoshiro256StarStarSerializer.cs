@@ -7,8 +7,11 @@ namespace NPrng.Serializers
     public sealed class Xoshiro256StarStarSerializer : AbstractPseudoRandomGeneratorSerializer<Xoshiro256StarStar>
     {
         private const int BufferSize = 4 * sizeof(UInt64);
-        public override int GetExpectedBufferSize(IPseudoRandomGenerator generator) => BufferSize;
 
+        /// <inheritdoc/>
+        public override int GetExpectedBufferSize(Xoshiro256StarStar generator) => BufferSize;
+
+        /// <inheritdoc/>
         public override Xoshiro256StarStar ReadFromBuffer(ArraySegment<byte> buffer, out int read)
         {
             UInt64 s0;
@@ -23,6 +26,7 @@ namespace NPrng.Serializers
             return new Xoshiro256StarStar(s0, s1, s2, s3);
         }
 
+        /// <inheritdoc/>
         public override Xoshiro256StarStar ReadFromStream(Stream source)
         {
             UInt64 s0;
@@ -36,6 +40,7 @@ namespace NPrng.Serializers
             return new Xoshiro256StarStar(s0, s1, s2, s3);
         }
 
+        /// <inheritdoc/>
         public override int WriteToBuffer(Xoshiro256StarStar generator, ArraySegment<byte> buffer)
         {
             buffer = SerializationHelpers.WriteToBuffer(generator.S0, buffer);
@@ -45,6 +50,7 @@ namespace NPrng.Serializers
             return BufferSize;
         }
 
+        /// <inheritdoc/>
         public override void WriteToStream(Xoshiro256StarStar generator, Stream target)
         {
             SerializationHelpers.WriteToStream(generator.S0, target);

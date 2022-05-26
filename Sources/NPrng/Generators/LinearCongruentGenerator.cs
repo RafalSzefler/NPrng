@@ -27,6 +27,7 @@ namespace NPrng.Generators
             CurrentState = seed;
         }
 
+        /// <inheritdoc/>
         public override Int64 Generate()
         {
             var currentState = CurrentState;

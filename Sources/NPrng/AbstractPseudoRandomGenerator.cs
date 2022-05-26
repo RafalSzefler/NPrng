@@ -5,10 +5,18 @@ namespace NPrng
 {
     public abstract class AbstractPseudoRandomGenerator : IPseudoRandomGenerator
     {
+        /// <inheritdoc/>
         public abstract Int64 Generate();
 
-        public double GenerateDouble() => (double)Math.Abs(Generate()) / (double)Int64.MaxValue;
+        /// <inheritdoc/>
+        public double GenerateDouble()
+        {
+            var generated = (Int32)Generate();
+            var piece = Math.Abs((Int64)generated);
+            return (double)piece / (double)Int32.MaxValue;
+        }
 
+        /// <inheritdoc/>
         public virtual Int64 GenerateInRange(Int64 lower, Int64 upper)
         {
             if (lower > upper)
@@ -23,6 +31,7 @@ namespace NPrng
             return lower + InternalGenerateInRange(upper - lower);
         }
 
+        /// <inheritdoc/>
         public virtual Int64 GenerateLessOrEqualTo(Int64 range)
         {
             if (range < 0)

@@ -30,6 +30,7 @@ namespace NPrng.Generators
             : this(new LinearCongruentGenerator(seed))
         { }
 
+        /// <inheritdoc/>
         public override Int64 Generate()
         {
             unchecked
